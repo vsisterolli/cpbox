@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { purple } from '@mui/material/colors';
 import styled from 'styled-components';
 
-const pages = ['Problems', 'Future Contests', 'Courses', "Algorithms Database"];
+const pages = ['Problems', 'Submissions', 'Future Contests', "Courses"];
 const settings = ['Profile', 'Logout'];
 
 const FakeHeader = styled.header`

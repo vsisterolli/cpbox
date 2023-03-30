@@ -5,8 +5,12 @@ const Container = styled.div`
 `
 
 const StyledProblemsListPage = styled.section`
+    @media (max-width: 1400px) {
+        flex-direction: column;
+        align-items: center;
+    }
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #eeeeee;
     display: flex;
     justify-content: center;

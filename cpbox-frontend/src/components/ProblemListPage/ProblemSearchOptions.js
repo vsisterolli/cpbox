@@ -52,6 +52,9 @@ export default function ProblemSearchOptions() {
 }
 
 const OptionsBar = styled.aside`
+    @media (max-width: 600px) {
+        width: 100%;
+    }
     background-color: white;
     height: 600px;
     width: 420px;

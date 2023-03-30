@@ -1,7 +1,7 @@
 import Header from "../../components/Header";
 import { StyledProblemsListPage } from "./ProblemsListPageStyle";
-import ProblemSearchOptions from "../../components/ProblemSearchOptions";
-import ProblemsList from "../../components/ProblemsList";
+import ProblemSearchOptions from "../../components/ProblemListPage/ProblemSearchOptions";
+import ProblemsList from "../../components/ProblemListPage/ProblemsList";
 
 export default function ProblemsListPage() {
     return(
