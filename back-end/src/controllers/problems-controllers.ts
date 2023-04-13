@@ -7,7 +7,7 @@ export async function createProblem(req: MulterRequest, res: Response) {
     if(!req.file)
         res.status(400).send("Missing tests");
 
-    problem.tests = req.file.buffer;
+    problem.tests = req.file;
     try {
         await problemsServices.checkProblem(problem);
         res.sendStatus(201);

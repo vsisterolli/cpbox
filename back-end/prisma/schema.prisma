@@ -13,7 +13,15 @@ model problems {
   description        String
   input_description  String
   output_description String
-  mb_memory_limit    Int
   seconds_limit      Int
-  tests              Bytes?
+  mb_memory_limit    Int
+  test_cases         test_cases[]
+}
+
+model test_cases {
+  id         Int      @unique @default(autoincrement())
+  problem_id Int
+  name       String
+  file       Bytes?
+  problems   problems @relation(fields: [problem_id], references: [id])
 }

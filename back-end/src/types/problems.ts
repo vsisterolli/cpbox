@@ -1,4 +1,4 @@
-import { problems } from "@prisma/client"
+import { problems, test_cases } from "@prisma/client";
 
 type ProblemCreateParams = Omit<problems, 'id' | 'tests'>;
 
@@ -7,4 +7,14 @@ interface Problem extends ProblemCreateParams {
     tests: File & Buffer
 }
 
-export default Problem;
+type TestCasesCreateParams = Omit<test_cases, 'id'>
+
+interface TestCases extends TestCasesCreateParams {
+    id?: number,
+    file: Buffer
+}
+
+export {
+    TestCases,
+    Problem
+}
