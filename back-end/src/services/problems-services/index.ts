@@ -1,37 +1,48 @@
 import problemsRepositories from "@/repositories/problems-repositories";
 import { Problem, TestCases } from "@/types/problems";
 import decompress from "decompress";
+import path from "path";
+import { forbiddenName, invalidExtension, missingMatchesOrEmptyCases, testsSizeExceeded } from "./errors";
 
 async function checkProblem(problem: Problem) {
     if(problem.tests.size > 4000000)
-        throw 'testsSizeExceeded';
+        throw testsSizeExceeded();
 
     problem.mb_memory_limit = Number(problem.mb_memory_limit);
     problem.seconds_limit = Number(problem.seconds_limit);
 
-    const tests = problem.tests.buffer
+    const decompressedTests: TestCases[] = await decompressTests(problem.tests.buffer);
     delete problem.tests;
-    
-    const { id } = await problemsRepositories.createProblem(problem);
-    await decompressTests(tests, id);
+
+    await problemsRepositories.createProblem({...problem, test_cases: decompressedTests});
 }
 
-async function decompressTests(tests: ArrayBuffer | Buffer, problemId: number) {
+async function decompressTests(tests: ArrayBuffer | Buffer) {
     try {
         const files = await decompress(tests as Buffer, "solution");
         const databaseTestPattern: TestCases[] = [];
         files.map(file => {
+
+            if(file.path === "a.out")
+                throw forbiddenName();
+
+            if(path.extname(file.path) !== '.in' && path.extname(file.path) !== '.out')
+                throw invalidExtension();
+
             databaseTestPattern.push({
                 name: file.path,
-                problem_id: problemId,
                 file: file.data
             });
-            console.log(file);
         })
-        await problemsRepositories.createTestCases(databaseTestPattern);
+
+        if(!databaseTestPattern.length || databaseTestPattern.length % 2)
+            throw missingMatchesOrEmptyCases();
+
+        return databaseTestPattern;
     }
     catch(e) {
         console.log(e.message);
+        throw e;
     }
 }
 

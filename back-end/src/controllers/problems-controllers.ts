@@ -13,9 +13,8 @@ export async function createProblem(req: MulterRequest, res: Response) {
         res.sendStatus(201);
     }
     catch(e) {
-        if(e.name === 'testsSizeExceeded')
-            res.status(400).send("Tests sizes are too large")
-        else res.status(500).send(e.message.details);
-        console.log(e);
+        if(e.name === 'testsSizeExceeded' || e.name === 'InvalidExtension' || e.name === 'Missing Matches Or Empty Cases')
+            res.status(400).send(e)
+        else res.status(500).send(e);
     }
 }

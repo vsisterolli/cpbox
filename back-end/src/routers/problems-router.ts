@@ -7,6 +7,7 @@ import multer from "multer";
 const upload = multer();
 const problemsRouter = Router();
 
-problemsRouter.post('', upload.single('tests'), validateBody(problemSchema), createProblem);
+problemsRouter
+    .post('', upload.single('tests'), validateBody(problemSchema), createProblem);
 
 export { problemsRouter };
