@@ -16,6 +16,18 @@ async function createProblem(problem: Problem) {
     });
 }
 
+async function getProblemDetails(problem_id: number) {
+    return await prisma.problems.findFirst({
+        select: {
+            seconds_limit: true,
+            mb_memory_limit: true
+        },
+        where: {
+            id: problem_id
+        },
+    })
+}
+
 async function getTestCases(problem_id: number) {
     return await prisma.test_cases.findMany({
         where: {
@@ -26,7 +38,8 @@ async function getTestCases(problem_id: number) {
 
 const problemsRepositories = {
     createProblem,
-    getTestCases
+    getTestCases,
+    getProblemDetails
 }
 
 export default problemsRepositories;

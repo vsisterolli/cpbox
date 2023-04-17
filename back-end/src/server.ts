@@ -1,6 +1,8 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 import { problemsRouter, submissionsRouter } from '@/routers';
+process.chdir('./src/solution')
+
 
 const server = express();
 

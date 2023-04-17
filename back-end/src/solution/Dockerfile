@@ -7,6 +7,6 @@ COPY . .
 RUN apk add g++
 RUN apk add valgrind
 
-RUN g++ testcode.cpp
+RUN g++ testSolution.cpp
 
-CMD sh -c 'time valgrind ./a.out < 1.in > 1.out'
+CMD sh -c './a.out'

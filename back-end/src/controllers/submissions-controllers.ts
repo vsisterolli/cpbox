@@ -5,11 +5,14 @@ export async function judgeSubmission(req: Request, res: Response) {
     try {
         const { code } = req.body;
         const { problemId } = req.params;
-        await submissionServices.createSolutionEnviroment(code, Number(problemId))       
-        res.sendStatus(200);
+        const result = await submissionServices.createSolutionEnviroment(code, Number(problemId))       
+        res.send(result);
     }
     catch(e) {
-        console.log(e.message);
+        if(e.name === "Problem Not Found")
+            return res.status(404).send(e.name);    
+        
+        console.log(e.name);
         res.status(500).send(e.message);
     }
 }

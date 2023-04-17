@@ -1,22 +1,29 @@
 import problemsRepositories from "@/repositories/problems-repositories";
 import fs from "fs";
+import { evaluateSolution } from "@/solution";
+import { problemNotFound } from "./errors";
 
 async function createSolutionEnviroment(code: string, problemId: number) {
+
     try {
-        await fs.writeFileSync('./src/solution/testcode.cpp', code);
+        await fs.writeFileSync('./solution.cpp', code);
 
         const testCases = await problemsRepositories.getTestCases(problemId);
         if(!testCases.length)
-            throw 'problemNotFound';
+            throw problemNotFound();
 
         testCases.forEach(async(value) => {
-            await fs.writeFileSync('./src/solution/' + value.name, value.file.toString());
+            await fs.writeFileSync('./' + value.name, value.file.toString());
         })
 
-        return evaluateSolution(testCases.length / 2);
+        const problemDetails = await problemsRepositories.getProblemDetails(problemId);
+        await fs.writeFileSync('./config.txt', `${problemDetails.seconds_limit} ${problemDetails.mb_memory_limit}`);
+
+        return evaluateSolution();
     }
     catch(e) {
         console.log('Impossible to create solution enviroment');
+        console.log(e);
         throw e;
     }
 }
